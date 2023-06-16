@@ -38,6 +38,9 @@ struct ContentView: View {
     @StateObject
     var wishlistModel = WishlistModel()
     
+    @State
+    private var shouldLoadData = true
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -67,7 +70,10 @@ struct ContentView: View {
             }
             .navigationTitle("WWDC Wishlist")
             .task {
-                await wishlistModel.load()
+                if shouldLoadData {
+                    await wishlistModel.load()
+                }
+                shouldLoadData = false
             }
         }
     }
